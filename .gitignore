@@ -11,6 +11,7 @@ __pycache__/
 .agents/
 .codex/
 .git-data/
+.gradio/
 
 data/*.db
 data/*.db-*

@@ -59,6 +59,7 @@ class Settings(BaseSettings):
 
     app_username: str | None = None
     app_password: str | None = None
+    gradio_share: bool = False
 
     llm_api_key: str | None = None
     llm_model: str = "gpt-4o-mini"

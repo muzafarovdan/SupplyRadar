@@ -454,6 +454,7 @@ if __name__ == "__main__":
     server_name, server_port = _launch_network()
     build_interface().queue(default_concurrency_limit=1).launch(
         auth=_launch_auth(),
+        share=_settings.gradio_share,
         show_api=False,
         server_name=server_name,
         server_port=server_port,
