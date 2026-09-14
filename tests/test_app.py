@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from app import CARD_PLACEHOLDER, _card_choices, build_interface, show_selected_card
+from app import (
+    CARD_PLACEHOLDER,
+    _card_choices,
+    _launch_network,
+    build_interface,
+    show_selected_card,
+)
 from src.models import (
     RunStats,
     ScoredSupplier,
@@ -46,3 +52,15 @@ def test_explicit_card_selector_contains_both_result_groups():
 
 def test_interface_builds_with_card_button():
     assert build_interface() is not None
+
+
+def test_render_port_is_used(monkeypatch):
+    monkeypatch.setenv("PORT", "10000")
+
+    assert _launch_network() == ("0.0.0.0", 10000)
+
+
+def test_local_launch_keeps_gradio_defaults(monkeypatch):
+    monkeypatch.delenv("PORT", raising=False)
+
+    assert _launch_network() == (None, None)

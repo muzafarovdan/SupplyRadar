@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from queue import Queue
 from threading import Thread
 
@@ -436,8 +437,24 @@ def _launch_auth() -> tuple[str, str] | None:
     return None
 
 
+def _launch_network() -> tuple[str | None, int | None]:
+    """На Render слушает публичный интерфейс и выданный платформой порт."""
+    raw_port = os.getenv("PORT")
+    if not raw_port:
+        return None, None
+    try:
+        port = int(raw_port)
+    except ValueError:
+        logger.warning("Переменная PORT некорректна, используется порт Gradio")
+        return "0.0.0.0", None
+    return "0.0.0.0", port
+
+
 if __name__ == "__main__":
+    server_name, server_port = _launch_network()
     build_interface().queue(default_concurrency_limit=1).launch(
         auth=_launch_auth(),
         show_api=False,
+        server_name=server_name,
+        server_port=server_port,
     )
