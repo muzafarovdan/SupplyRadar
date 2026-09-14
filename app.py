@@ -429,5 +429,15 @@ def build_interface() -> gr.Blocks:
     return demo
 
 
+def _launch_auth() -> tuple[str, str] | None:
+    """Включает Basic Auth, только если заданы оба секрета развёртывания."""
+    if _settings.app_username and _settings.app_password:
+        return (_settings.app_username, _settings.app_password)
+    return None
+
+
 if __name__ == "__main__":
-    build_interface().launch()
+    build_interface().queue(default_concurrency_limit=1).launch(
+        auth=_launch_auth(),
+        show_api=False,
+    )

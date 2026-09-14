@@ -57,6 +57,9 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    app_username: str | None = None
+    app_password: str | None = None
+
     llm_api_key: str | None = None
     llm_model: str = "gpt-4o-mini"
     llm_base_url: str = "https://api.openai.com/v1"
